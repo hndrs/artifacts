@@ -5,8 +5,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -40,16 +38,14 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: sonar cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
 
-      - name: docker build
+      - name: heroku publish
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
+          heroku container:login
           ./gradlew bootJar
-          docker build . -f Dockerfile.app
-
-
+          docker build --load -t hndrs/artifacts:latest -f Dockerfile.app .
+          docker tag hndrs/artifacts:latest registry.heroku.com/int-artifacts/web
+          docker push registry.heroku.com/int-artifacts/web
+          heroku container:release web --app int-artifacts
