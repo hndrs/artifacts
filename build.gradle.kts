@@ -3,8 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.4.3"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.sonarqube").version("3.1.1")
     kotlin("jvm") version "1.4.30"
     kotlin("plugin.spring") version "1.4.30"
+    jacoco
 }
 
 group = "io.hndrs"
@@ -13,6 +15,18 @@ java.sourceCompatibility = JavaVersion.VERSION_15
 
 repositories {
     mavenCentral()
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "hndrs_artifacts")
+        property("sonar.organization", "hndrs")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.6"
 }
 
 dependencies {
