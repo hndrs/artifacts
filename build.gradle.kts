@@ -17,6 +17,19 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    //hndrs
+    implementation("io.hndrs:jsonapi-spring-boot-starter:1.0.0")
+
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
 sonarqube {
     properties {
         property("sonar.projectKey", "hndrs_artifacts")
@@ -29,17 +42,12 @@ jacoco {
     toolVersion = "0.8.6"
 }
 
-dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-
-    //hndrs
-    implementation("io.hndrs:jsonapi-spring-boot-starter:1.0.0")
-
-
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+tasks.withType<JacocoReport> {
+    reports {
+        xml.apply {
+            isEnabled = true
+        }
+    }
 }
 
 tasks.withType<KotlinCompile> {
