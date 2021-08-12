@@ -1,0 +1,4 @@
+hndrs.jwt.key-store-path=
+artifacts.auth0.domain=
+artifacts.auth0.client-id=
+artifacts.auth0.client-secret=

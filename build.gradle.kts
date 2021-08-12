@@ -1,11 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.4.3"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.sonarqube").version("3.1.1")
-    kotlin("jvm") version "1.4.30"
-    kotlin("plugin.spring") version "1.4.30"
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
+    id("org.sonarqube").version("3.3")
+    kotlin("jvm")
+    kotlin("plugin.spring")
+    kotlin("kapt")
     jacoco
 }
 
@@ -17,14 +18,26 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom("com.squareup.okhttp3:okhttp-bom:4.9.0")
+    }
+}
+
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
+    implementation("com.auth0:auth0:1.33.0")
+    implementation("io.springfox:springfox-boot-starter:3.0.0")
     //hndrs
     implementation("io.hndrs:jsonapi-spring-boot-starter:1.0.0")
+    implementation("io.hndrs:jwt-auth-spring-boot-starter:1.0.0")
 
+    kapt(group = "org.springframework.boot", name = "spring-boot-configuration-processor")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -39,7 +52,7 @@ sonarqube {
 }
 
 jacoco {
-    toolVersion = "0.8.6"
+    toolVersion = "0.8.7"
 }
 
 tasks.withType<JacocoReport> {
