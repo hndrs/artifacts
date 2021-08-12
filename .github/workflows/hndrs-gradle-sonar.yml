@@ -49,5 +49,6 @@ jobs:
           ARTIFACTS_AUTH0_DOMAIN: ${{ secrets.ARTIFACTS_AUTH0_DOMAIN }}
           ARTIFACTS_AUTH0_CLIENTID: ${{ secrets.ARTIFACTS_AUTH0_CLIENTID }}
           ARTIFACTS_AUTH0_CLIENTSECRET: ${{ secrets.ARTIFACTS_AUTH0_CLIENTSECRET }}
+          HNDRS_JWT_KEYSTOREPATH: ${{ secrets.ARTIFACTS_AUTH0_KEYSTOREPATH }}
 
         run: ./gradlew check jacocoTestReport sonarqube --info -Dspring.profiles.active=ci
