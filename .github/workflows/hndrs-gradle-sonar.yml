@@ -46,5 +46,8 @@ jobs:
       - name: analyse
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew check jacocoTestReport sonarqube --info
+          ARTIFACTS_AUTH0_DOMAIN: ${{ secrets.ARTIFACTS_AUTH0_DOMAIN }}
+          ARTIFACTS_AUTH0_CLIENTID: ${{ secrets.ARTIFACTS_AUTH0_CLIENTID }}
+          ARTIFACTS_AUTH0_CLIENTSECRET: ${{ secrets.ARTIFACTS_AUTH0_CLIENTSECRET }}
+
+        run: ./gradlew check jacocoTestReport sonarqube --info -Dspring.profiles.active=ci

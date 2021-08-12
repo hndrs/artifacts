@@ -38,5 +38,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: test
+        env:
+          ARTIFACTS_AUTH0_DOMAIN: ${{ secrets.ARTIFACTS_AUTH0_DOMAIN }}
+          ARTIFACTS_AUTH0_CLIENTID: ${{ secrets.ARTIFACTS_AUTH0_CLIENTID }}
+          ARTIFACTS_AUTH0_CLIENTSECRET: ${{ secrets.ARTIFACTS_AUTH0_CLIENTSECRET }}
         run: |
           ./gradlew check -Dspring.profiles.active=ci
