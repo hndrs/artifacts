@@ -12,6 +12,11 @@ jobs:
   check:
     runs-on: ubuntu-latest
 
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
     steps:
       - name: git checkout
         uses: actions/checkout@v2
@@ -34,4 +39,4 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: test
         run: |
-          ./gradlew check
+          ./gradlew check -Dspring.profiles.active=ci

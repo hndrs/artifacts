@@ -72,4 +72,7 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    System.getProperty("spring.profiles.active")?.let {
+        systemProperties.put("spring.profiles.active", it)
+    }
 }
