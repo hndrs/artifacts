@@ -12,6 +12,11 @@ jobs:
   check:
     runs-on: ubuntu-latest
 
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
     steps:
       - name: git checkout
         uses: actions/checkout@v2
@@ -33,5 +38,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: test
+        env:
+          ARTIFACTS_AUTH0_DOMAIN: ${{ secrets.ARTIFACTS_AUTH0_DOMAIN }}
+          ARTIFACTS_AUTH0_CLIENTID: ${{ secrets.ARTIFACTS_AUTH0_CLIENTID }}
+          ARTIFACTS_AUTH0_CLIENTSECRET: ${{ secrets.ARTIFACTS_AUTH0_CLIENTSECRET }}
+          HNDRS_JWT_KEYSTOREPATH: ${{ secrets.ARTIFACTS_AUTH0_KEYSTOREPATH }}
         run: |
-          ./gradlew check
+          ./gradlew check -Dspring.profiles.active=ci
